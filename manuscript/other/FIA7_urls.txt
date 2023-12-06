@@ -1,0 +1,7 @@
+# remote paths to FIA files to download.
+https://apps.fs.usda.gov/fia/datamart/CSV/PLOT.zip
+https://apps.fs.usda.gov/fia/datamart/CSV/COND.zip
+https://apps.fs.usda.gov/fia/datamart/CSV/SUBPLOT.zip
+https://apps.fs.usda.gov/fia/datamart/CSV/SUBP_COND.zip
+https://apps.fs.usda.gov/fia/datamart/CSV/TREE_GRM_ESTN.zip
+https://apps.fs.usda.gov/fia/datamart/CSV/TREE.zip
