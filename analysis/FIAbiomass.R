@@ -1,19 +1,18 @@
-
 # Load some packages
 library(rFIA)
 library(dplyr)
 
 # Downloading FIA data
-states <- read.csv(paste0(here::here(), "/fia_data/states.csv"))
+states <- read.csv(paste0(here::here(), "/data/obs/states.csv"))
 
 # download the dataset needed: COND, PLOT, TREE for all States
 st <- states$State.abbreviation
 st <- st[1:5]
 for(i in st){
-getFIA(states = i, dir = "/Users/lauramarques/forestFIA_US/fia_data",tables = "COND",load = FALSE)
-getFIA(states = i, dir = "/Users/lauramarques/forestFIA_US/fia_data",tables = "PLOT",load = FALSE)
-options(timeout=3600)
-getFIA(states = i, dir = "/Users/lauramarques/forestFIA_US/fia_data",tables = "TREE",load = FALSE)
+  getFIA(states = i, dir = paste0(here::here(), "/data/obs"),tables = "COND",load = FALSE)
+  getFIA(states = i, dir = paste0(here::here(), "/data/obs"),tables = "PLOT",load = FALSE)
+  options(timeout=3600)
+  getFIA(states = i, dir = paste0(here::here(), "/data/obs"),tables = "TREE",load = FALSE)
 }
 
 # read data
@@ -21,8 +20,7 @@ getFIA(states = i, dir = "/Users/lauramarques/forestFIA_US/fia_data",tables = "T
 # STATECD State code
 # COUNTYCD County code
 # PLOT Plot number
-setwd("/Users/lauramarques/forestFIA_US/fia_data")
-data_cond <- list.files(pattern = "*_COND.csv") %>%
+data_cond <- list.files(path = paste0(here::here(), "/data/obs"), pattern = "*_COND.csv") %>%
   purrr::map(read.csv) %>% 
   #lapply(read_csv) %>%
   lapply(\(x) mutate(x, across(HABTYPCD1, as.character))) %>%
@@ -30,14 +28,14 @@ data_cond <- list.files(pattern = "*_COND.csv") %>%
   # Make a unique ID for each plot, irrespective of time
   mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_'))
 unique(data_cond$pltID)
-data_plot <- list.files(pattern = "*_PLOT.csv") %>%
+data_plot <- list.files(path = paste0(here::here(), "/data/obs"), pattern = "*_PLOT.csv") %>%
   purrr::map(read.csv) %>% 
   lapply(\(x) mutate(x, across(ECO_UNIT_PNW, as.character))) %>%
   bind_rows() %>%
   # Make a unique ID for each plot, irrespective of time
   mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_'))
 unique(data_plot$pltID)
-data_tree <- list.files(pattern = "*_TREE.csv") %>%
+data_tree <- list.files(path = paste0(here::here(), "/data/obs"), pattern = "*_TREE.csv") %>%
   purrr::map(read.csv) %>% 
   bind_rows() %>%
   # Make a unique ID for each plot, irrespective of time

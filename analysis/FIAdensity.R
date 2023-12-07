@@ -4,7 +4,7 @@ library(rFIA)
 library(dplyr)
 
 # Downloading FIA data
-states <- read.csv(paste0(here::here(), "/data/states.csv"))
+states <- read.csv(paste0(here::here(), "/data/obs/states.csv"))
 
 # download the dataset needed: COND, PLOT, TREE for all States
 st <- states$State.abbreviation

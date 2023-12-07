@@ -1,0 +1,69 @@
+﻿State,State code ,State abbreviation,Research station,Region or Station code
+Alabama,1,AL,SRS,33
+Alaska,2,AK,PNWRS-AK,27
+Arizona,4,AZ,RMRS,22
+Arkansas,5,AR,SRS,33
+California,6,CA,PNWRS,26
+Colorado,8,CO,RMRS,22
+Connecticut,9,CT,NERS,24
+Delaware,10,DE,NERS,24
+Florida,12,FL,SRS,33
+District of Columbia,11,DC,NERS,24
+Georgia,13,GA,SRS,33
+Hawaii,15,HI,PNWRS,26
+Idaho,16,ID,RMRS,22
+Illinois,17,IL,NCRS,23
+Indiana,18,IN,NCRS,23
+Iowa,19,IA,NCRS,23
+Kansas,20,KS,NCRS,23
+Kentucky,21,KY,SRS,33
+Louisiana,22,LA,SRS,33
+Maine,23,ME,NERS,24
+Maryland,24,MD,NERS,24
+Massachusetts,25,MA,NERS,24
+Michigan,26,MI,NCRS,23
+Minnesota,27,MN,NCRS,23
+Mississippi,28,MS,SRS,33
+Missouri,29,MO,NCRS,23
+Montana,30,MT,RMRS,22
+Nebraska,31,NE,NCRS,23
+Nevada,32,NV,RMRS,22
+New Hampshire,33,NH,NERS,24
+New Jersey,34,NJ,NERS,24
+New Mexico,35,NM,RMRS,22
+New York,36,NY,NERS,24
+North Carolina,37,NC,SRS,33
+North Dakota,38,ND,NCRS,23
+Ohio,39,OH,NERS,24
+Oklahoma,40,OK,SRS,33
+Oregon,41,OR,PNWRS,26
+Pennsylvania,42,PA,NERS,24
+Rhode Island,44,RI,NERS,24
+South Carolina,45,SC,SRS,33
+South Dakota,46,SD,NCRS,23
+Tennessee,47,TN,SRS,33
+Texas,48,TX,SRS,33
+Utah,49,UT,RMRS,22
+Vermont,50,VT,NERS,24
+Virginia,51,VA,SRS,33
+Washington,53,WA,PNWRS,26
+West Virginia,54,WV,NERS,24
+Wisconsin,55,WI,NCRS,23
+Wyoming,56,WY,RMRS,22
+American Samoa,60,AS,PNWRS,26
+Federated States of Micronesia,64,FM,PNWRS,26
+Guam,66,GU,PNWRS,26
+Marshall Islands,68,MH,PNWRS,26
+Northern Mariana Islands,69,MP,PNWRS,26
+Palau,70,PW,PNWRS,26
+Puerto Rico,72,PR,SRS,33
+US Virgin Islands,78,VI,SRS,33 
+Hawaii,15,HI,PNWRS,26
+American Samoa,60,AS,PNWRS,26
+Federated States of Micronesia,64,FM,PNWRS,26
+Guam,66,GU,PNWRS,26
+Marshall Islands,68,MH,PNWRS,26
+Northern Mariana Islands,69,MP,PNWRS,26
+Palau,70,PW,PNWRS,26
+Puerto Rico,72,PR,SRS,33
+US Virgin Islands,78,VI,SRS,33
