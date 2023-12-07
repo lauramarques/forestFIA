@@ -8,7 +8,8 @@ states <- read.csv(paste0(here::here(), "/data/obs/states.csv"))
 
 # download the dataset needed: COND, PLOT, TREE for all States
 st <- states$State.abbreviation
-st <- st[1:5]
+# Data unavailable for:  DC, MH
+st <- st[-which(st %in% c('DC','MH') )]
 for(i in st){
   getFIA(states = i, dir = paste0(here::here(), "/data/obs"),tables = "COND",load = FALSE)
   getFIA(states = i, dir = paste0(here::here(), "/data/obs"),tables = "PLOT",load = FALSE)
@@ -63,22 +64,60 @@ tpaRI <- tpa(fiaRI,totals = TRUE)
 tpaRI_plot <- tpa(fiaRI, byPlot = TRUE, treeType = 'all') %>%
   arrange(pltID) 
 
+tpa(fiaRI, byPlot = TRUE, treeType = 'live', treeDomain = DIA >=4.724) %>%
+  arrange(pltID)
+
+str(fiaRI$TREE)
+
+fiaRI$TREE %>% 
+  # Filter trees with dbh > 12 cm o (4.724 in) STATUSCD==1
+  filter(DIA>=4.724) %>%
+  # Filter trees alive
+  filter(STATUSCD==1) %>%
+  mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_')) %>%
+  group_by(pltID,INVYR) %>%
+  summarize(density_ind_ha = sum(TPA_UNADJ , na.rm = TRUE)) %>%
+  arrange(pltID) 
+
+
+
+## Tree-level data from NFI
+# DRYBIO_AG - aboveground biomass (DRYBIO_AG) contained in each tree (libs)
+# TPA_UNADJ - trees per acre each tree represents
+# DIA - DBH (inches) 
+# 1 lb = 0.453 kg
+# 1 acre = 0.405 ha
+# 1 inch = 2.54 cm
+
+fiaRI$TREE
+str(fiaRI$TREE)
+length(unique(fiaRI$TREE$PLOT)) 
+length(unique(fiaRI$TREE$INVYR)) 
+
+fiaRI$TREE %>%
+  mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_')) %>%
+  # Filter trees with dbh > 12 cm o (4.724 in) STATUSCD==1
+  #filter(DIA>=4.724) %>%
+  # Filter trees alive
+  filter(STATUSCD==1) %>%
+  group_by(pltID,INVYR) %>%
+  summarize(abg_biomass_kg_ha = sum(DRYBIO_AG * TPA_UNADJ * 0.453/0.405, na.rm = TRUE),
+            density_ind_ha = sum(TPA_UNADJ * 0.405 , na.rm = TRUE),
+            mean_dbh = mean(DIA * 2.54, na.rm = TRUE),
+            mean_dbh2 = mean(DIA * TPA_UNADJ * 2.54/0.405, na.rm = TRUE))
+
+
+summary(fiaRI$TREE$DIA* 2.54 *fiaRI$TREE$TPA_UNADJ/0.405)
+
+
+
+
 den <- fiaRI$TREE %>%
   mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_')) %>%
   group_by(pltID,INVYR) %>%
   summarize(density_ind_ha = sum(TPA_UNADJ , na.rm = TRUE)) %>%
   arrange(pltID) 
 
-biomass(fiaRI, byPlot = TRUE, treeType = 'all') %>%
-  arrange(pltID) 
-fiaRI$TREE %>%
-  mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_')) %>%
-  group_by(pltID,INVYR) %>%
-  summarize(BIO_AG_ACRE = sum(DRYBIO_AG * TPA_UNADJ / 2000, na.rm = TRUE)) %>%
-  arrange(pltID) 
 
 
-## Subplot-level
-tpaRI_subp <- tpa(fiaRI, byPlot = TRUE, grpBy = SUBP)
-## Tree-level
-tpaRI_tree <- tpa(fiaRI, byPlot = TRUE, grpBy = TREE)
+

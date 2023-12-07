@@ -4,9 +4,13 @@ library(rFIA)
 
 # Downloading FIA data
 
+## Get the forest type and forest type group reference tables
+options(timeout=3600)
+ref <- getFIA(states = 'REF', tables = c('FOREST_TYPE'))
+
 ## Download the state subset or Connecticut (requires an internet connection)
 ## Save as an object to automatically load the data into your current R session!
-ct <- getFIA(states = 'CT', dir = "/Users/lauramarques/forestFIA_US/fia_data",tables = "COND",load = FALSE)
+ct <- getFIA(states = 'DC', dir = "/home/laura/forestFIA/data",tables = "COND",load = FALSE)
 ct <- getFIA(states = 'CT', dir = "/Users/lauramarques/forestFIA_US/fia_data",tables = "PLOT")
 ct <- getFIA(states = 'CT', dir = "/Users/lauramarques/forestFIA_US/fia_data",tables = "TREE")
 

@@ -1,4 +1,4 @@
-﻿State,State code ,State abbreviation,Research station,Region or Station code
+State,State code ,State abbreviation,Research station,Region or Station code
 Alabama,1,AL,SRS,33
 Alaska,2,AK,PNWRS-AK,27
 Arizona,4,AZ,RMRS,22
@@ -57,7 +57,7 @@ Marshall Islands,68,MH,PNWRS,26
 Northern Mariana Islands,69,MP,PNWRS,26
 Palau,70,PW,PNWRS,26
 Puerto Rico,72,PR,SRS,33
-US Virgin Islands,78,VI,SRS,33 
+US Virgin Islands,78,VI,SRS,33
 Hawaii,15,HI,PNWRS,26
 American Samoa,60,AS,PNWRS,26
 Federated States of Micronesia,64,FM,PNWRS,26
