@@ -18,22 +18,14 @@ for(i in st){
   getFIA(states = i, dir = paste0(here::here(), "/data/obs"),tables = "TREE",load = FALSE)
 }
 
-
-st <- states$State.abbreviation
-# Data unavailable for:  DC, MH
-st <- st[-which(st %in% c('DC','MH') )]
-xxx <- read.csv(paste0(here::here(), "/data/obs/WI_TREE.csv"))
-for(i in st){
-  xxx <- read.csv(paste0(here::here(), "/data/obs/", i, "_TREE.csv"))
-  print(i)
-}
-
 # read data
 # UNITCD Survey unit code
 # STATECD State code
 # COUNTYCD County code
 # PLOT Plot number
 setwd(paste0(here::here(), "/data/obs"))
+
+# COND table
 data_cond <- list.files(path = paste0(here::here(), "/data/obs"), pattern = "*_COND.csv") %>%
   purrr::map(read.csv) %>% 
   #lapply(read_csv) %>%
@@ -47,6 +39,9 @@ data_cond <- list.files(path = paste0(here::here(), "/data/obs"), pattern = "*_C
   # Make a unique ID for each plot, irrespective of time
   mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_'))
 unique(data_cond$pltID)
+#write.csv(data_cond, paste0(here::here(), "/data/df/data_cond.csv"))
+
+# PLOT table
 data_plot <- list.files(path = paste0(here::here(), "/data/obs"), pattern = "*_PLOT.csv") %>%
   purrr::map(read.csv) %>% 
   lapply(\(x) mutate(x, across(ECO_UNIT_PNW, as.character))) %>%
@@ -54,25 +49,6 @@ data_plot <- list.files(path = paste0(here::here(), "/data/obs"), pattern = "*_P
   # Make a unique ID for each plot, irrespective of time
   mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_'))
 unique(data_plot$pltID)
-data_tree <- list.files(path = paste0(here::here(), "/data/obs"), pattern = "*_TREE.csv") %>%
-  purrr::map(read.csv) %>% 
-  lapply(\(x) mutate(x, across(CAVITY_USE_PNWRS, as.character))) %>%
-  bind_rows() %>%
-  # Make a unique ID for each plot, irrespective of time
-  mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_'))
-unique(data_tree$pltID)
-
-
-st <- states$State.abbreviation
-# Data unavailable for:  DC, MH
-st <- st[-which(st %in% c('DC','MH') )]
-xxx <- read.csv(paste0(here::here(), "/data/obs/WI_TREE.csv"))
-for(i in st){
-  currentDF <- read.csv(paste0(here::here(), "/data/obs/", i, "_TREE.csv"))
-  data_tree <- rbind(data_tree, currentDF)
-  print(i)
-}
-
 
 # We want to filter the unmanaged plots. For that we select those plots classified as reserves.
 # COND table RESERVCD==1 represents the reserves, where no interventions have been carried out.
@@ -85,6 +61,32 @@ length(unique(data_cond$PLOT))
 str(data_cond)
 data_plot <- data_plot %>% filter(PLOT %in% reserves$PLOT)
 length(unique(data_plot$PLOT))
+str(data_plot)
+
+# TREE table.
+# Note: R session crushes due to the big size of the files. So, we read the files and save only the reserves plots.
+data_tree <- list.files(path = paste0(here::here(), "/data/obs"), pattern = "*_TREE.csv") %>%
+  purrr::map(read.csv) %>% 
+  lapply(\(x) mutate(x, across(CAVITY_USE_PNWRS, as.character))) %>%
+  lapply(\(x) filter(x, PLOT %in% reserves$PLOT)) %>% # Filter for the unmanaged plots
+  bind_rows() %>%
+  # Make a unique ID for each plot, irrespective of time
+  mutate(pltID = paste(UNITCD, STATECD, COUNTYCD, PLOT, sep = '_'))
+unique(data_tree$pltID)
+
+st <- states$State.abbreviation
+# Data unavailable for:  DC, MH
+st <- st[-which(st %in% c('DC','MH') )]
+#xxx <- read.csv(paste0(here::here(), "/data/obs/WI_TREE.csv"))
+st <- st[1:25]
+data_tree <- data.frame()
+for(i in st){
+  currentDF <- read.csv(paste0(here::here(), "/data/obs/", i, "_TREE.csv"))
+  currentDF <- currentDF %>% filter(PLOT %in% reserves$PLOT)
+  data_tree <- rbind(data_tree, currentDF)
+  print(i)
+}
+
 data_tree <- data_tree %>% filter(PLOT %in% reserves$PLOT) 
 length(unique(data_tree$PLOT))
 
