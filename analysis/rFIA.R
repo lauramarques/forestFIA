@@ -28,7 +28,6 @@ unique(ct$COND %>% filter(RESERVCD==1))$INVYR
 
 reserves <- ct$COND %>% filter(RESERVCD==1)
 
-
 ## Get multiple states worth of data (not saved since 'dir' is not specified)
 northEast <- getFIA(states = c('ME', 'NH', 'VT', 'NY', 'CT', 'MA', 'RI'))
 
